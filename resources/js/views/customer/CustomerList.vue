@@ -38,27 +38,14 @@
                 {{ $transformToAbsolute(customer.total_amount) }}
               </td>
               <td class="text-center">{{ customer.status }}</td>
-              <td>
-                <div class="row">
-                  <div class="text-center col-md-5">
-                    <button
-                      title="View"
-                      class="btn btn-primary"
-                      @click="viewModal(customer.id, $event)"
-                    >
-                      <i class="fa fa-eye"></i>
-                    </button>
-                  </div>
-                  <div class="text-center col-md-5">
-                    <button
-                      title="Delete"
-                      class="btn btn-danger ml-1"
-                      @click.prevent="deleteCustomer(customer.id)"
-                    >
-                      <i class="fa fa-trash"></i>
-                    </button>
-                  </div>
-                </div>
+              <td class="text-center">
+                <button
+                  title="View"
+                  class="btn btn-primary"
+                  @click="viewModal(customer.id, $event)"
+                >
+                  <i class="fa fa-eye"></i>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -98,35 +85,23 @@ export default {
     },
     viewModal(id, e) {
       axios
-          .post(`/api/getCustomerDetails/${id}`, {
-              id: id,
-          })
-          .then((response) => {
-              $("#edit-customer-modal").modal("show");
-              $(".myModalLabel").text(
-                  response.data.customer_details.name
-              );
-              state.commit("getCustomerDetailsArray", response.data.customer_details);
-              state.commit("getCustomerItems", response.data.item_details);
-              state.commit("getTransactionId", response.data.customer_details.id);
-          })
-          .catch((response) => {
-              this.$toast.top("Something went wrong!");
-          });
-      e.preventDefault();
-    },
-    deleteCustomer(id) {
-      axios
-        .post(`/api/deleteCustomer/${id}`, {
+        .post(`/api/getCustomerDetails/${id}`, {
           id: id,
         })
         .then((response) => {
-          this.$toast.top("Customer Succesfully Deleted!");
-          window.location.reload();
+          $("#edit-customer-modal").modal("show");
+          $(".myModalLabel").text(response.data.customer_details.name);
+          state.commit(
+            "getCustomerDetailsArray",
+            response.data.customer_details
+          );
+          state.commit("getCustomerItems", response.data.item_details);
+          state.commit("getTransactionId", response.data.customer_details.id);
         })
-        .catch((error) => {
+        .catch((response) => {
           this.$toast.top("Something went wrong!");
         });
+      e.preventDefault();
     },
   },
 };

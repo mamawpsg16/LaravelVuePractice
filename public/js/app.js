@@ -3390,6 +3390,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -3475,6 +3480,9 @@ var greaterThanZero = function greaterThanZero(value) {
     //   this.modalOnHide)
   },
   computed: {
+    getTransactionId: function getTransactionId() {
+      return _customer__WEBPACK_IMPORTED_MODULE_0__["default"].state.transaction_id;
+    },
     totalDiscountedAmount: function totalDiscountedAmount() {
       var array_length = this.added_items.length;
       var total_discounted_amount = 0;
@@ -3527,7 +3535,7 @@ var greaterThanZero = function greaterThanZero(value) {
     //         this.code_error = false;
     // },
     modalOnHide: function modalOnHide(e) {
-      console.log('modal on hide method');
+      console.log("modal on hide method");
       this.$modalOnHide();
       _customer__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getCustomerDetailsArray", "");
       _customer__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getCustomerItems", "");
@@ -3642,6 +3650,19 @@ var greaterThanZero = function greaterThanZero(value) {
       e.preventDefault();
       return false;
     },
+    deleteCustomer: function deleteCustomer(id) {
+      var _this4 = this;
+
+      axios.post("/api/deleteCustomer/".concat(id), {
+        id: id
+      }).then(function (response) {
+        _this4.$toast.top("Customer Succesfully Deleted!");
+
+        window.location.reload();
+      })["catch"](function (error) {
+        _this4.$toast.top("Something went wrong!");
+      });
+    },
     deleteItemRow: function deleteItemRow(i, e) {
       this.added_items = this.added_items.filter(function (obj) {
         return obj.id !== i;
@@ -3664,19 +3685,6 @@ var greaterThanZero = function greaterThanZero(value) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _customer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./customer */ "./resources/js/views/customer/customer.js");
 /* harmony import */ var _CustomerEdit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CustomerEdit */ "./resources/js/views/customer/CustomerEdit.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -3775,19 +3783,6 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$toast.top("Something went wrong!");
       });
       e.preventDefault();
-    },
-    deleteCustomer: function deleteCustomer(id) {
-      var _this3 = this;
-
-      axios.post("/api/deleteCustomer/".concat(id), {
-        id: id
-      }).then(function (response) {
-        _this3.$toast.top("Customer Succesfully Deleted!");
-
-        window.location.reload();
-      })["catch"](function (error) {
-        _this3.$toast.top("Something went wrong!");
-      });
     }
   }
 });
@@ -4426,41 +4421,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -4504,7 +4464,11 @@ __webpack_require__.r(__webpack_exports__);
     this.getDepartments();
     $(this.$refs.employee_details_modal).on("hidden.bs.modal", this.modalOnHide);
   },
-  computed: {},
+  computed: {
+    getTransactionId: function getTransactionId() {
+      return _employee__WEBPACK_IMPORTED_MODULE_0__["default"].state.transaction_id;
+    }
+  },
   methods: {
     getDepartments: function getDepartments(query) {
       var _this = this;
@@ -4563,6 +4527,19 @@ __webpack_require__.r(__webpack_exports__);
         name: _employee__WEBPACK_IMPORTED_MODULE_0__["default"].state.employee_details.department_name
       };
       this.form_edit = true;
+    },
+    deleteEmployee: function deleteEmployee(id) {
+      var _this3 = this;
+
+      axios.post("/api/deleteEmployee/".concat(id), {
+        id: id
+      }).then(function (response) {
+        _this3.$toast.top("Employee Succesfully Deleted!");
+
+        window.location.reload();
+      })["catch"](function (error) {
+        _this3.$toast.top("Something went wrong!");
+      });
     }
   }
 });
@@ -4580,13 +4557,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _employee__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./employee */ "./resources/js/views/employee/employee.js");
 /* harmony import */ var _EmployeeEdit_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EmployeeEdit.vue */ "./resources/js/views/employee/EmployeeEdit.vue");
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -4678,19 +4648,6 @@ __webpack_require__.r(__webpack_exports__);
         console.log("oks pa 3");
       })["catch"](function (response) {
         _this2.$toast.top("Something went wrong!");
-      });
-    },
-    deleteEmployee: function deleteEmployee(id) {
-      var _this3 = this;
-
-      axios.post("/api/deleteEmployee/".concat(id), {
-        id: id
-      }).then(function (response) {
-        _this3.$toast.top("Employee Succesfully Deleted!");
-
-        window.location.reload();
-      })["catch"](function (error) {
-        _this3.$toast.top("Something went wrong!");
       });
     }
   }
@@ -5676,20 +5633,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -5705,7 +5648,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       description: "",
       date: new Date(),
       unit_price: 0.0,
-      status: '',
+      status: "",
       submitStatus: "",
       form_edit: false
     };
@@ -5733,7 +5676,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.getDepartments();
     $(this.$refs.inventory_details_modal).on("hidden.bs.modal", this.modalOnHide);
   },
-  computed: {},
+  computed: {
+    getTransactionId: function getTransactionId() {
+      return _inventory__WEBPACK_IMPORTED_MODULE_0__["default"].state.transaction_id;
+    }
+  },
   methods: {
     getDepartments: function getDepartments(query) {
       var _this = this;
@@ -5780,6 +5727,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return false;
       }
     },
+    deleteInventory: function deleteInventory(id) {
+      var _this3 = this;
+
+      axios.post("/api/deleteInventory/".concat(id), {
+        id: id
+      }).then(function (response) {
+        _this3.$toast.top("Inventory Succesfully Deleted!");
+
+        window.location.reload();
+      })["catch"](function (error) {
+        _this3.$toast.top("Something went wrong!");
+      });
+    },
     editInventoryDetails: function editInventoryDetails() {
       this.id = _inventory__WEBPACK_IMPORTED_MODULE_0__["default"].state.transaction_id;
       this.code = _inventory__WEBPACK_IMPORTED_MODULE_0__["default"].state.inventory_details.code;
@@ -5806,13 +5766,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inventory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./inventory */ "./resources/js/views/inventory/inventory.js");
 /* harmony import */ var _InventoryEdit_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InventoryEdit.vue */ "./resources/js/views/inventory/InventoryEdit.vue");
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -5902,19 +5855,6 @@ __webpack_require__.r(__webpack_exports__);
         _inventory__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getTransactionId", response.data.id);
       })["catch"](function (response) {
         _this2.$toast.top("Something went wrong!");
-      });
-    },
-    deleteInventory: function deleteInventory(id) {
-      var _this3 = this;
-
-      axios.post("/api/deleteInventory/".concat(id), {
-        id: id
-      }).then(function (response) {
-        _this3.$toast.top("Inventory Succesfully Deleted!");
-
-        window.location.reload();
-      })["catch"](function (error) {
-        _this3.$toast.top("Something went wrong!");
       });
     }
   }
@@ -46020,6 +45960,21 @@ var render = function () {
             _c("div", { staticClass: "modal-footer" }, [
               _vm._m(2),
               _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger ml-1",
+                  attrs: { title: "Delete" },
+                  on: {
+                    click: function ($event) {
+                      $event.preventDefault()
+                      return _vm.deleteCustomer(_vm.getTransactionId)
+                    },
+                  },
+                },
+                [_c("i", { staticClass: "fa fa-trash" })]
+              ),
+              _vm._v(" "),
               _vm.form_edit === false
                 ? _c(
                     "button",
@@ -46028,7 +45983,7 @@ var render = function () {
                       attrs: { title: "Edit" },
                       on: { click: _vm.editCustomerDetails },
                     },
-                    [_vm._v("\n          Edit\n        ")]
+                    [_c("i", { staticClass: "fa fa-pen" })]
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -46053,11 +46008,7 @@ var render = function () {
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-12 mr-1 text-right" }, [
                 _vm.submitStatus === "OK"
-                  ? _c("p", [
-                      _vm._v(
-                        "\n            Thanks for your submission!\n          "
-                      ),
-                    ])
+                  ? _c("p", [_vm._v("Thanks for your submission!")])
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.submitStatus === "ERROR"
@@ -46241,52 +46192,20 @@ var render = function () {
                             _vm._v(_vm._s(customer.status)),
                           ]),
                           _vm._v(" "),
-                          _c("td", [
-                            _c("div", { staticClass: "row" }, [
-                              _c(
-                                "div",
-                                { staticClass: "text-center col-md-5" },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-primary",
-                                      attrs: { title: "View" },
-                                      on: {
-                                        click: function ($event) {
-                                          return _vm.viewModal(
-                                            customer.id,
-                                            $event
-                                          )
-                                        },
-                                      },
-                                    },
-                                    [_c("i", { staticClass: "fa fa-eye" })]
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "text-center col-md-5" },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-danger ml-1",
-                                      attrs: { title: "Delete" },
-                                      on: {
-                                        click: function ($event) {
-                                          $event.preventDefault()
-                                          return _vm.deleteCustomer(customer.id)
-                                        },
-                                      },
-                                    },
-                                    [_c("i", { staticClass: "fa fa-trash" })]
-                                  ),
-                                ]
-                              ),
-                            ]),
+                          _c("td", { staticClass: "text-center" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-primary",
+                                attrs: { title: "View" },
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.viewModal(customer.id, $event)
+                                  },
+                                },
+                              },
+                              [_c("i", { staticClass: "fa fa-eye" })]
+                            ),
                           ]),
                         ])
                       }),
@@ -47028,7 +46947,7 @@ var render = function () {
                                             { staticClass: "text-danger" },
                                             [
                                               _vm._v(
-                                                "\n                                            this field is required.\n                                        "
+                                                "\n                      this field is required.\n                    "
                                               ),
                                             ]
                                           )
@@ -47078,7 +46997,7 @@ var render = function () {
                                             { staticClass: "text-danger" },
                                             [
                                               _vm._v(
-                                                "\n                                            this field is required.\n                                        "
+                                                "\n                      this field is required.\n                    "
                                               ),
                                             ]
                                           )
@@ -47130,7 +47049,7 @@ var render = function () {
                                             { staticClass: "text-danger" },
                                             [
                                               _vm._v(
-                                                "\n                                            this field is required.\n                                        "
+                                                "\n                      this field is required.\n                    "
                                               ),
                                             ]
                                           )
@@ -47142,7 +47061,7 @@ var render = function () {
                                             { staticClass: "text-danger" },
                                             [
                                               _vm._v(
-                                                "\n                                            this field has a maximum of 11\n                                            numbers.\n                                        "
+                                                "\n                      this field has a maximum of 11 numbers.\n                    "
                                               ),
                                             ]
                                           )
@@ -47182,7 +47101,7 @@ var render = function () {
                                         )
                                       },
                                       expression:
-                                        "\n                                            $v.selected_department.$model\n                                        ",
+                                        "$v.selected_department.$model",
                                     },
                                   }),
                                   _vm._v(" "),
@@ -47194,7 +47113,7 @@ var render = function () {
                                               { staticClass: "text-danger" },
                                               [
                                                 _vm._v(
-                                                  "\n                                            this select field is required.\n                                        "
+                                                  "\n                      this select field is required.\n                    "
                                                 ),
                                               ]
                                             )
@@ -47258,11 +47177,7 @@ var render = function () {
                                       _c(
                                         "option",
                                         { attrs: { disabled: "", value: "" } },
-                                        [
-                                          _vm._v(
-                                            "\n                                            Select Status\n                                        "
-                                          ),
-                                        ]
+                                        [_vm._v("Select Status")]
                                       ),
                                       _vm._v(" "),
                                       _c(
@@ -47273,11 +47188,7 @@ var render = function () {
                                             selected: _vm.status === 1,
                                           },
                                         },
-                                        [
-                                          _vm._v(
-                                            "\n                                            ACTIVE\n                                        "
-                                          ),
-                                        ]
+                                        [_vm._v("ACTIVE")]
                                       ),
                                       _vm._v(" "),
                                       _c(
@@ -47290,7 +47201,7 @@ var render = function () {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                                            INACTIVE\n                                        "
+                                            "\n                      INACTIVE\n                    "
                                           ),
                                         ]
                                       ),
@@ -47317,11 +47228,28 @@ var render = function () {
                 ? _c(
                     "button",
                     {
+                      staticClass: "btn btn-danger ml-1",
+                      attrs: { title: "Delete" },
+                      on: {
+                        click: function ($event) {
+                          $event.preventDefault()
+                          return _vm.deleteEmployee(_vm.getTransactionId)
+                        },
+                      },
+                    },
+                    [_c("i", { staticClass: "fa fa-trash" })]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.form_edit === false
+                ? _c(
+                    "button",
+                    {
                       staticClass: "btn btn-primary",
                       attrs: { title: "Edit" },
                       on: { click: _vm.editEmployeeDetails },
                     },
-                    [_vm._v("\n                    Edit\n                ")]
+                    [_c("i", { staticClass: "fa fa-pen" })]
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -47338,7 +47266,7 @@ var render = function () {
                         },
                       },
                     },
-                    [_vm._v("\n                    Update\n                ")]
+                    [_vm._v("\n          Update\n        ")]
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -47346,16 +47274,14 @@ var render = function () {
               _vm._v(" "),
               _vm.submitStatus === "OK"
                 ? _c("p", { staticClass: "typo__p" }, [
-                    _vm._v(
-                      "\n                    Thanks for your submission!\n                "
-                    ),
+                    _vm._v("\n          Thanks for your submission!\n        "),
                   ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.submitStatus === "ERROR"
                 ? _c("p", { staticClass: "typo__p" }, [
                     _vm._v(
-                      "\n                    Please fill the form correctly.\n                "
+                      "\n          Please fill the form correctly.\n        "
                     ),
                   ])
                 : _vm._e(),
@@ -47479,21 +47405,6 @@ var render = function () {
                                 },
                               },
                               [_c("i", { staticClass: "fa fa-eye" })]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-danger ml-1",
-                                attrs: { title: "Delete" },
-                                on: {
-                                  click: function ($event) {
-                                    $event.preventDefault()
-                                    return _vm.deleteEmployee(employee.id)
-                                  },
-                                },
-                              },
-                              [_c("i", { staticClass: "fa fa-trash" })]
                             ),
                           ]),
                         ])
@@ -48628,11 +48539,7 @@ var render = function () {
                                   _c(
                                     "label",
                                     { staticClass: "font-weight-bold pr-3s" },
-                                    [
-                                      _vm._v(
-                                        "Date\n                                    "
-                                      ),
-                                    ]
+                                    [_vm._v("Date ")]
                                   ),
                                   _vm._v(" "),
                                   _c("date-picker", {
@@ -48658,7 +48565,7 @@ var render = function () {
                                               { staticClass: "text-danger" },
                                               [
                                                 _vm._v(
-                                                  "\n                                            this field is required.\n                                        "
+                                                  "\n                      this field is required.\n                    "
                                                 ),
                                               ]
                                             )
@@ -48712,7 +48619,7 @@ var render = function () {
                                             { staticClass: "text-danger" },
                                             [
                                               _vm._v(
-                                                "\n                                            this field is required.\n                                        "
+                                                "\n                      this field is required.\n                    "
                                               ),
                                             ]
                                           )
@@ -48762,7 +48669,7 @@ var render = function () {
                                             { staticClass: "text-danger" },
                                             [
                                               _vm._v(
-                                                "\n                                            this field is required.\n                                        "
+                                                "\n                      this field is required.\n                    "
                                               ),
                                             ]
                                           )
@@ -48840,7 +48747,7 @@ var render = function () {
                                             { staticClass: "text-danger" },
                                             [
                                               _vm._v(
-                                                "\n                                            this select field is required.\n                                        "
+                                                "\n                      this select field is required.\n                    "
                                               ),
                                             ]
                                           )
@@ -48853,7 +48760,7 @@ var render = function () {
                             _c("div", { staticClass: "row" }, [
                               _c(
                                 "div",
-                                { staticClass: " offset-md-6 col-md-6" },
+                                { staticClass: "offset-md-6 col-md-6" },
                                 [
                                   _c(
                                     "label",
@@ -48922,7 +48829,11 @@ var render = function () {
                                             selected: _vm.status === 0,
                                           },
                                         },
-                                        [_vm._v("INACTIVE")]
+                                        [
+                                          _vm._v(
+                                            "\n                      INACTIVE\n                    "
+                                          ),
+                                        ]
                                       ),
                                     ]
                                   ),
@@ -48947,11 +48858,28 @@ var render = function () {
                 ? _c(
                     "button",
                     {
+                      staticClass: "btn btn-danger ml-1",
+                      attrs: { title: "Delete" },
+                      on: {
+                        click: function ($event) {
+                          $event.preventDefault()
+                          return _vm.deleteInventory(_vm.getTransactionId)
+                        },
+                      },
+                    },
+                    [_c("i", { staticClass: "fa fa-trash" })]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.form_edit === false
+                ? _c(
+                    "button",
+                    {
                       staticClass: "btn btn-primary",
                       attrs: { title: "Edit" },
                       on: { click: _vm.editInventoryDetails },
                     },
-                    [_vm._v("\n                    Edit\n                ")]
+                    [_c("i", { staticClass: "fa fa-pen" })]
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -48968,7 +48896,7 @@ var render = function () {
                         },
                       },
                     },
-                    [_vm._v("\n                    Update\n                ")]
+                    [_vm._v("\n          Update\n        ")]
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -48976,16 +48904,14 @@ var render = function () {
               _vm._v(" "),
               _vm.submitStatus === "OK"
                 ? _c("p", { staticClass: "typo__p" }, [
-                    _vm._v(
-                      "\n                    Thanks for your submission!\n                "
-                    ),
+                    _vm._v("\n          Thanks for your submission!\n        "),
                   ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.submitStatus === "ERROR"
                 ? _c("p", { staticClass: "typo__p" }, [
                     _vm._v(
-                      "\n                    Please fill the form correctly.\n                "
+                      "\n          Please fill the form correctly.\n        "
                     ),
                   ])
                 : _vm._e(),
@@ -49117,21 +49043,6 @@ var render = function () {
                                 },
                               },
                               [_c("i", { staticClass: "fa fa-eye" })]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-danger ml-1",
-                                attrs: { title: "Delete" },
-                                on: {
-                                  click: function ($event) {
-                                    $event.preventDefault()
-                                    return _vm.deleteInventory(inventory.id)
-                                  },
-                                },
-                              },
-                              [_c("i", { staticClass: "fa fa-trash" })]
                             ),
                           ]),
                         ])

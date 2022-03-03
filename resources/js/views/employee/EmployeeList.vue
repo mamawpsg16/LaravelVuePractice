@@ -37,13 +37,6 @@
                                 >
                                     <i class="fa fa-eye"></i>
                                 </button>
-                                <button
-                                    title="Delete"
-                                    class="btn btn-danger ml-1"
-                                    @click.prevent="deleteEmployee(employee.id)"
-                                >
-                                    <i class="fa fa-trash"></i>
-                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -102,19 +95,6 @@ export default {
                     console.log("oks pa 3");
                 })
                 .catch((response) => {
-                    this.$toast.top("Something went wrong!");
-                });
-        },
-        deleteEmployee(id) {
-            axios
-                .post(`/api/deleteEmployee/${id}`, {
-                    id: id,
-                })
-                .then((response) => {
-                    this.$toast.top("Employee Succesfully Deleted!");
-                    window.location.reload();
-                })
-                .catch((error) => {
                     this.$toast.top("Something went wrong!");
                 });
         },

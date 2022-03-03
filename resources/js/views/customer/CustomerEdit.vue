@@ -334,12 +334,19 @@
             <i class="fa fa-times"></i>
           </button>
           <button
+            title="Delete"
+            class="btn btn-danger ml-1"
+            @click.prevent="deleteCustomer(getTransactionId)"
+          >
+            <i class="fa fa-trash"></i>
+          </button>
+          <button
             class="btn btn-primary"
             v-if="form_edit === false"
             @click="editCustomerDetails"
             title="Edit"
           >
-            Edit
+            <i class="fa fa-pen"></i>
           </button>
           <button
             type="submit"
@@ -353,9 +360,7 @@
         </div>
         <div class="row">
           <div class="col-md-12 mr-1 text-right">
-            <p v-if="submitStatus === 'OK'">
-              Thanks for your submission!
-            </p>
+            <p v-if="submitStatus === 'OK'">Thanks for your submission!</p>
             <p v-if="submitStatus === 'ERROR'">
               Please fill the form correctly.
             </p>
@@ -445,12 +450,18 @@ export default {
   mounted() {
     this.getEmployees();
     this.getInventories();
-    $(this.$refs.customer_details_modal).on("hidden.bs.modal", this.modalOnHide);
+    $(this.$refs.customer_details_modal).on(
+      "hidden.bs.modal",
+      this.modalOnHide
+    );
     // $('#edit-customer-modal').on(
     //   'hidden.bs.modal',
     //   this.modalOnHide)
   },
   computed: {
+    getTransactionId() {
+      return state.state.transaction_id;
+    },
     totalDiscountedAmount() {
       let array_length = this.added_items.length;
       let total_discounted_amount = 0;
@@ -503,7 +514,7 @@ export default {
     //         this.code_error = false;
     // },
     modalOnHide(e) {
-      console.log('modal on hide method')
+      console.log("modal on hide method");
       this.$modalOnHide();
       state.commit("getCustomerDetailsArray", "");
       state.commit("getCustomerItems", "");
@@ -626,6 +637,19 @@ export default {
       });
       e.preventDefault();
       return false;
+    },
+    deleteCustomer(id) {
+      axios
+        .post(`/api/deleteCustomer/${id}`, {
+          id: id,
+        })
+        .then((response) => {
+          this.$toast.top("Customer Succesfully Deleted!");
+          window.location.reload();
+        })
+        .catch((error) => {
+          this.$toast.top("Something went wrong!");
+        });
     },
     deleteItemRow(i, e) {
       this.added_items = this.added_items.filter(function (obj) {
