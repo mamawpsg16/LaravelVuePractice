@@ -1,0 +1,35 @@
+.th-w-amount{
+    width: 100px;
+}
+
+.th-w-multiselect{
+    width: 250px;
+}
+
+
+.th-w-action{
+    width: 70px;
+}
+
+.table-fixed{
+	table-layout: fixed;
+	tbody{
+		tr{
+			td{
+				font-size: 15px;
+			}
+		}
+	}
+	thead{
+		tr{
+			th{
+				font-size: 15px;
+			}
+		}
+	}
+}
+
+.thead-global{
+	background-color:#2575c0; 
+    color: #fff;
+}
