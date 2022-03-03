@@ -16,6 +16,7 @@
             type="button"
             class="close"
             data-dismiss="modal"
+            @click="modalOnHide($event)"
             aria-label="Close"
           >
             <span aria-hidden="true">&times;</span>
@@ -118,14 +119,6 @@
         </div>
         <div class="modal-footer">
           <button
-            type="button"
-            class="btn btn-secondary"
-            data-dismiss="modal"
-            title="Close"
-          >
-            <i class="fa fa-times"></i>
-          </button>
-          <button
             title="Delete"
             class="btn btn-danger ml-1"
             v-if="form_edit === false"
@@ -205,10 +198,6 @@ export default {
   },
   mounted() {
     this.getDepartments();
-    $(this.$refs.employee_details_modal).on(
-      "hidden.bs.modal",
-      this.modalOnHide
-    );
   },
   computed: {
     getTransactionId() {
@@ -234,6 +223,7 @@ export default {
       this.$modalOnHide();
       state.commit("getEmployeeDetailsArray", "");
       state.commit("getTransactionId", "");
+      e.preventDefault();
     },
     updateEmployeeDetails(e) {
       this.$v.$touch();

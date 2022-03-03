@@ -7,6 +7,8 @@
     aria-labelledby="editCustomerLabel"
     aria-hidden="true"
     ref="customer_details_modal"
+    data-backdrop="static"
+    data-keyboard="false"
   >
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
@@ -16,6 +18,7 @@
             type="button"
             class="close"
             data-dismiss="modal"
+            @click="modalOnHide($event)"
             aria-label="Close"
           >
             <span aria-hidden="true">&times;</span>
@@ -326,14 +329,6 @@
         </div>
         <div class="modal-footer">
           <button
-            type="button"
-            class="btn btn-secondary"
-            data-dismiss="modal"
-            title="Close"
-          >
-            <i class="fa fa-times"></i>
-          </button>
-          <button
             title="Delete"
             class="btn btn-danger ml-1"
             @click.prevent="deleteCustomer(getTransactionId)"
@@ -450,13 +445,6 @@ export default {
   mounted() {
     this.getEmployees();
     this.getInventories();
-    $(this.$refs.customer_details_modal).on(
-      "hidden.bs.modal",
-      this.modalOnHide
-    );
-    // $('#edit-customer-modal').on(
-    //   'hidden.bs.modal',
-    //   this.modalOnHide)
   },
   computed: {
     getTransactionId() {
@@ -482,6 +470,14 @@ export default {
     },
   },
   methods: {
+    modalOnHide(e) {
+      console.log("modal on hide method");
+      this.$modalOnHide();
+      state.commit("getCustomerDetailsArray", "");
+      state.commit("getCustomerItems", "");
+      state.commit("getTransactionId", "");
+      e.preventDefault();
+    },
     getEmployees(query) {
       this.isLoading = true;
       axios
@@ -508,17 +504,6 @@ export default {
         .catch((error) => {
           this.$toast.top("Something went wrong!");
         });
-    },
-    // modalOnHide(e){
-    //         this.$modalOnHide()
-    //         this.code_error = false;
-    // },
-    modalOnHide(e) {
-      console.log("modal on hide method");
-      this.$modalOnHide();
-      state.commit("getCustomerDetailsArray", "");
-      state.commit("getCustomerItems", "");
-      state.commit("getTransactionId", "");
     },
     editCustomerDetails() {
       this.name = state.state.customer_details.name;

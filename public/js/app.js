@@ -3387,11 +3387,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -3472,9 +3467,6 @@ var greaterThanZero = function greaterThanZero(value) {
   mounted: function mounted() {
     this.getEmployees();
     this.getInventories();
-    $(this.$refs.customer_details_modal).on("hidden.bs.modal", this.modalOnHide); // $('#edit-customer-modal').on(
-    //   'hidden.bs.modal',
-    //   this.modalOnHide)
   },
   computed: {
     getTransactionId: function getTransactionId() {
@@ -3502,6 +3494,14 @@ var greaterThanZero = function greaterThanZero(value) {
     }
   },
   methods: {
+    modalOnHide: function modalOnHide(e) {
+      console.log("modal on hide method");
+      this.$modalOnHide();
+      _customer__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getCustomerDetailsArray", "");
+      _customer__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getCustomerItems", "");
+      _customer__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getTransactionId", "");
+      e.preventDefault();
+    },
     getEmployees: function getEmployees(query) {
       var _this = this;
 
@@ -3526,17 +3526,6 @@ var greaterThanZero = function greaterThanZero(value) {
       })["catch"](function (error) {
         _this2.$toast.top("Something went wrong!");
       });
-    },
-    // modalOnHide(e){
-    //         this.$modalOnHide()
-    //         this.code_error = false;
-    // },
-    modalOnHide: function modalOnHide(e) {
-      console.log("modal on hide method");
-      this.$modalOnHide();
-      _customer__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getCustomerDetailsArray", "");
-      _customer__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getCustomerItems", "");
-      _customer__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getTransactionId", "");
     },
     editCustomerDetails: function editCustomerDetails() {
       this.name = _customer__WEBPACK_IMPORTED_MODULE_0__["default"].state.customer_details.name;
@@ -4411,13 +4400,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -4459,7 +4441,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getDepartments();
-    $(this.$refs.employee_details_modal).on("hidden.bs.modal", this.modalOnHide);
   },
   computed: {
     getTransactionId: function getTransactionId() {
@@ -4484,6 +4465,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$modalOnHide();
       _employee__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getEmployeeDetailsArray", "");
       _employee__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getTransactionId", "");
+      e.preventDefault();
     },
     updateEmployeeDetails: function updateEmployeeDetails(e) {
       var _this2 = this;
@@ -5623,13 +5605,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -5671,7 +5646,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   mounted: function mounted() {
     this.getDepartments();
-    $(this.$refs.inventory_details_modal).on("hidden.bs.modal", this.modalOnHide);
   },
   computed: {
     getTransactionId: function getTransactionId() {
@@ -44845,6 +44819,8 @@ var render = function () {
         role: "dialog",
         "aria-labelledby": "editCustomerLabel",
         "aria-hidden": "true",
+        "data-backdrop": "static",
+        "data-keyboard": "false",
       },
     },
     [
@@ -44853,7 +44829,31 @@ var render = function () {
         { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
         [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "modal-header" }, [
+              _c("h5", { staticClass: "myModalLabel" }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "close",
+                  attrs: {
+                    type: "button",
+                    "data-dismiss": "modal",
+                    "aria-label": "Close",
+                  },
+                  on: {
+                    click: function ($event) {
+                      return _vm.modalOnHide($event)
+                    },
+                  },
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("×"),
+                  ]),
+                ]
+              ),
+            ]),
             _vm._v(" "),
             _c(
               "div",
@@ -45171,7 +45171,7 @@ var render = function () {
                                       "\n                      table table-sm table-hover table-bordered table-fixed\n                    ",
                                   },
                                   [
-                                    _vm._m(1),
+                                    _vm._m(0),
                                     _vm._v(" "),
                                     _c(
                                       "tbody",
@@ -45940,8 +45940,6 @@ var render = function () {
             ),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
-              _vm._m(2),
-              _vm._v(" "),
               _c(
                 "button",
                 {
@@ -46013,27 +46011,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "myModalLabel" }),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close",
-          },
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("tr", [
       _c("th", { staticClass: "th-w-multiselect" }, [_vm._v("Inventory")]),
       _vm._v(" "),
@@ -46053,19 +46030,6 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", { staticClass: "th-w-action" }, [_vm._v("Action")]),
     ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-secondary",
-        attrs: { type: "button", "data-dismiss": "modal", title: "Close" },
-      },
-      [_c("i", { staticClass: "fa fa-times" })]
-    )
   },
 ]
 render._withStripped = true
@@ -46871,7 +46835,31 @@ var render = function () {
         { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
         [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "modal-header" }, [
+              _c("h5", { staticClass: "myModalLabel" }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "close",
+                  attrs: {
+                    type: "button",
+                    "data-dismiss": "modal",
+                    "aria-label": "Close",
+                  },
+                  on: {
+                    click: function ($event) {
+                      return _vm.modalOnHide($event)
+                    },
+                  },
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("×"),
+                  ]),
+                ]
+              ),
+            ]),
             _vm._v(" "),
             _c(
               "div",
@@ -47204,8 +47192,6 @@ var render = function () {
             ),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
-              _vm._m(1),
-              _vm._v(" "),
               _vm.form_edit === false
                 ? _c(
                     "button",
@@ -47274,42 +47260,7 @@ var render = function () {
     ]
   )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "myModalLabel" }),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close",
-          },
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-secondary",
-        attrs: { type: "button", "data-dismiss": "modal", title: "Close" },
-      },
-      [_c("i", { staticClass: "fa fa-times" })]
-    )
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -48495,7 +48446,31 @@ var render = function () {
         { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
         [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "modal-header" }, [
+              _c("h5", { staticClass: "myModalLabel" }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "close",
+                  attrs: {
+                    type: "button",
+                    "data-dismiss": "modal",
+                    "aria-label": "Close",
+                  },
+                  on: {
+                    click: function ($event) {
+                      return _vm.modalOnHide($event)
+                    },
+                  },
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("×"),
+                  ]),
+                ]
+              ),
+            ]),
             _vm._v(" "),
             _c(
               "div",
@@ -48834,8 +48809,6 @@ var render = function () {
             ),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
-              _vm._m(1),
-              _vm._v(" "),
               _vm.form_edit === false
                 ? _c(
                     "button",
@@ -48904,42 +48877,7 @@ var render = function () {
     ]
   )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "myModalLabel" }),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close",
-          },
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-secondary",
-        attrs: { type: "button", "data-dismiss": "modal", title: "Close" },
-      },
-      [_c("i", { staticClass: "fa fa-times" })]
-    )
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
