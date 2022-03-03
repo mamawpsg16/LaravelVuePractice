@@ -1,13 +1,10 @@
 <template lang="">
     <div class="container mt-2">
         <div class="jumbotron">
-            <h1 class="display-4">Hello, world!</h1>
-            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+            <h1 class="display-4">Hello, there!</h1>
+            <p class="lead">In this project were just doing some exercises or modules with laravel & vue i hope you learn something in this project :)</p>
             <hr class="my-4">
-            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-            <p class="lead">
-                <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-            </p>
+            <label class="font-weight-bold"> - KM</label>
         </div>
     </div>
 </template>

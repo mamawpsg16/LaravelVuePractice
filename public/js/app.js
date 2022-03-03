@@ -2152,9 +2152,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Home'
 });
@@ -43448,32 +43445,17 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "container mt-2" }, [
       _c("div", { staticClass: "jumbotron" }, [
-        _c("h1", { staticClass: "display-4" }, [_vm._v("Hello, world!")]),
+        _c("h1", { staticClass: "display-4" }, [_vm._v("Hello, there!")]),
         _vm._v(" "),
         _c("p", { staticClass: "lead" }, [
           _vm._v(
-            "This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information."
+            "In this project were just doing some exercises or modules with laravel & vue i hope you learn something in this project :)"
           ),
         ]),
         _vm._v(" "),
         _c("hr", { staticClass: "my-4" }),
         _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            "It uses utility classes for typography and spacing to space content out within the larger container."
-          ),
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "lead" }, [
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-primary btn-lg",
-              attrs: { href: "#", role: "button" },
-            },
-            [_vm._v("Learn more")]
-          ),
-        ]),
+        _c("label", { staticClass: "font-weight-bold" }, [_vm._v(" - KM")]),
       ]),
     ])
   },
