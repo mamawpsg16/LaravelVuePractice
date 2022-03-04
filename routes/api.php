@@ -42,6 +42,7 @@ Route::post('/getInventoryDetails/{id}', 'InventoriesController@getInventoryDeta
 Route::post('/updateInventory/{id}', 'InventoriesController@updateInventory');
 Route::post('/deleteInventory/{id}', 'InventoriesController@deleteInventory');
 Route::post('/getInventories', 'InventoriesController@getInventories');
+Route::post('/uploadInventoryImage', 'InventoriesController@uploadInventoryImage');
 
 Route::get('/getCustomerLists', 'CustomerController@index');
 Route::post('/addCustomer', 'CustomerController@addCustomer');

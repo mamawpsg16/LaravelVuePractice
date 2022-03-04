@@ -33,7 +33,7 @@
               >
                 <div class="row">
                   <div class="col-sm-12 offset-md-6 col-md-6">
-                    <label class="font-weight-bold mr-2 mb-4">Date</label>
+                    <p class="font-weight-bold mr-2 mb-4">Date</p>
                     <date-picker
                       v-model="$v.date.$model"
                       format="YYYY-MM-DD"
@@ -544,6 +544,9 @@ export default {
               "getCustomerDetailsArray",
               response.data.customer_details
             );
+            setTimeout(() => {
+              this.submitStatus = "";
+            }, 3000);
             state.commit("getCustomerItems", response.data.item_details);
             state.commit("getTransactionId", response.data.customer_details.id);
             this.$toast.top("Customer Updated Successfully");

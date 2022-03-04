@@ -21,6 +21,7 @@ class Inventory extends Model
 					'description' 	=> $data['description'],
 					'unit_price'    => $data['unit_price'],
                     'date'          => date('Y-m-d', strtotime($data['date'])),
+					'image_name'    => $data['image_name'],
     				'created_at' 	=> date('Y-m-d H:i:s')
     			]);
     	$id = DB::getPDO()->lastInsertId();
@@ -39,6 +40,7 @@ class Inventory extends Model
 						'unit_price'    => $data['unit_price'],
 						'date'          => date('Y-m-d', strtotime($data['date'])),
 						'status'  		=> $data['status'],
+						'image_name'    => $data['image_name'],
 						'updated_at' 	=> date('Y-m-d H:i:s')
 			]);
     	return DB::table('inventories')

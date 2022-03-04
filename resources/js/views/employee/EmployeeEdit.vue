@@ -6,6 +6,8 @@
     role="dialog"
     aria-labelledby="editEmployeeLabel"
     aria-hidden="true"
+    data-backdrop="static"
+    data-keyboard="false"
     ref="employee_details_modal"
   >
     <div class="modal-dialog modal-lg" role="document">
@@ -143,13 +145,14 @@
           >
             Update
           </button>
-          <br />
-          <p class="typo__p" v-if="submitStatus === 'OK'">
-            Thanks for your submission!
-          </p>
-          <p class="typo__p" v-if="submitStatus === 'ERROR'">
-            Please fill the form correctly.
-          </p>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mr-1 text-right">
+            <p v-if="submitStatus === 'OK'">Thanks for your submission!</p>
+            <p v-if="submitStatus === 'ERROR'">
+              Please fill the form correctly.
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -242,6 +245,9 @@ export default {
           .then((response) => {
             this.form_edit = false;
             this.submitStatus = "OK";
+            setTimeout(() => {
+              this.submitStatus = "";
+            }, 3000);
             state.commit("getEmployeeDetailsArray", response.data);
             this.$toast.top("Employee Updated Successfully");
             window.location.reload();

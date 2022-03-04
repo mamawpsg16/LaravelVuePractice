@@ -6,6 +6,8 @@
     role="dialog"
     aria-labelledby="editInventoryLabel"
     aria-hidden="true"
+    data-backdrop="static"
+    data-keyboard="false"
     ref="inventory_details_modal"
   >
     <div class="modal-dialog modal-lg" role="document">
@@ -29,9 +31,26 @@
                 id="update-inventory-form"
                 class="form-horizontal form-label-left"
               >
-                <div class="row mb-3">
-                  <div class="col-sm-12 offset-md-6 col-md-6">
-                    <label class="font-weight-bold pr-3s">Date </label>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="font-weight-bold pr-3s">Image</p>
+                    <img
+                      v-if="image_path != ''"
+                      :src="image_path"
+                      alt="Item Image"
+                      width="80%"
+                      height="50%"
+                      class="mb-2"
+                    />
+                    <br />
+                    <input type="file" @change="getImagePath" />
+                    <label class="text-danger" v-if="image_error != ''">{{
+                      image_error
+                    }}</label>
+                    <hr />
+                  </div>
+                  <div class="col-md-6">
+                    <p class="font-weight-bold pr-3s">Date</p>
                     <date-picker
                       v-model="date"
                       format="YYYY-MM-DD"
@@ -142,13 +161,14 @@
           >
             Update
           </button>
-          <br />
-          <p class="typo__p" v-if="submitStatus === 'OK'">
-            Thanks for your submission!
-          </p>
-          <p class="typo__p" v-if="submitStatus === 'ERROR'">
-            Please fill the form correctly.
-          </p>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mr-1 text-right">
+            <p v-if="submitStatus === 'OK'">Thanks for your submission!</p>
+            <p v-if="submitStatus === 'ERROR'">
+              Please fill the form correctly.
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -173,6 +193,9 @@ export default {
       unit_price: 0.0,
       status: "",
       submitStatus: "",
+      image_name: "",
+      image_path: "",
+      image_error: "",
       form_edit: false,
     };
   },
@@ -238,13 +261,16 @@ export default {
             unit_price: this.unit_price,
             date: this.date,
             status: this.status,
+            image_name: this.image_name,
           })
           .then((response) => {
             this.form_edit = false;
             this.submitStatus = "OK";
+            setTimeout(() => {
+              this.submitStatus = "";
+            }, 3000);
             state.commit("getInventoryDetailsArray", response.data);
             this.$toast.top("Inventory Updated Successfully");
-            window.location.reload();
           });
         e.preventDefault();
         return false;
@@ -271,7 +297,26 @@ export default {
       this.unit_price = state.state.inventory_details.unit_price;
       this.date = new Date(state.state.inventory_details.date);
       this.status = state.state.inventory_details.status;
+      this.image_name = state.state.inventory_details.image_name;
+      this.image_path = state.state.inventory_details.image_path;
       this.form_edit = true;
+    },
+    getImagePath(e) {
+      let file = e.target.files[0];
+      let form = new FormData();
+      form.append("image", file);
+      axios
+        .post("/api/uploadInventoryImage", form)
+        .then((response) => {
+          this.image_path = response.data.path;
+          this.image_name = response.data.image_name;
+          this.image_error = "";
+        })
+        .catch((response) => {
+          this.image_path = "";
+          this.image_error = "Image must not exceed 2mb!";
+          this.image_name = "";
+        });
     },
   },
 };

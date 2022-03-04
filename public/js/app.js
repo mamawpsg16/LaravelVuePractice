@@ -2897,6 +2897,9 @@ var greaterThanZero = function greaterThanZero(value) {
           _this3.contact = "";
           _this3.date = new Date();
           _this3.selected_employee = null;
+
+          _this3.$modalOnReload();
+
           _this3.added_items = [{
             selected_inventory: null,
             description: "",
@@ -2907,7 +2910,10 @@ var greaterThanZero = function greaterThanZero(value) {
             discount_rate: 0.0,
             discount: 0,
             discounted_amount: 0.0
-          }], _this3.$toast.top("Customer Successfully Added");
+          }];
+
+          _this3.$toast.top("Customer Successfully Added");
+
           setTimeout(function () {
             window.location.reload();
           }, 1500);
@@ -3564,6 +3570,9 @@ var greaterThanZero = function greaterThanZero(value) {
           _this3.form_edit = false;
           _this3.submitStatus = "OK";
           _customer__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getCustomerDetailsArray", response.data.customer_details);
+          setTimeout(function () {
+            _this3.submitStatus = "";
+          }, 3000);
           _customer__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getCustomerItems", response.data.item_details);
           _customer__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getTransactionId", response.data.customer_details.id);
 
@@ -3785,11 +3794,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _customer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./customer */ "./resources/js/views/customer/customer.js");
-//
-//
-//
-//
-//
 //
 //
 //
@@ -4102,37 +4106,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4205,6 +4178,8 @@ __webpack_require__.r(__webpack_exports__);
           _this2.contact = "";
           _this2.selected_department = null;
 
+          _this2.$modalOnReload();
+
           _this2.$toast.top("Employee Successfully Added");
 
           window.location.reload();
@@ -4242,6 +4217,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_3__);
+//
+//
+//
 //
 //
 //
@@ -4485,6 +4463,9 @@ __webpack_require__.r(__webpack_exports__);
         }).then(function (response) {
           _this2.form_edit = false;
           _this2.submitStatus = "OK";
+          setTimeout(function () {
+            _this2.submitStatus = "";
+          }, 3000);
           _employee__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getEmployeeDetailsArray", response.data);
 
           _this2.$toast.top("Employee Updated Successfully");
@@ -4677,11 +4658,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "EmployeeRead",
@@ -4734,8 +4710,7 @@ __webpack_require__.r(__webpack_exports__);
   name: 'Bubblesort',
   data: function data() {
     return {
-      number: null,
-      arrayOfNumbers: [1, 2, 3, 4, 5]
+      numbers: ''
     };
   },
   validations: {},
@@ -4743,27 +4718,28 @@ __webpack_require__.r(__webpack_exports__);
   components: {},
   computed: {
     bubbleSortResult: function bubbleSortResult() {
-      return this.number && this.bubbleSort(this.number);
+      return this.numbers && this.bubbleSort(this.numbers);
     }
   },
   methods: {
-    bubbleSort: function bubbleSort(number) {
-      var splitNumber = number.split(',');
-      console.log(splitNumber);
+    bubbleSort: function bubbleSort(numbers) {
+      var newArray = numbers.split(',');
       var swapped = false;
 
       do {
-        for (var index = 0; index < splitNumber.length - 1; index++) {
-          if (splitNumber[index] < splitNumber[index + 1]) {
-            var temp = splitNumber[index];
-            splitNumber[index] = splitNumber[index + 1];
-            splitNumber[index + 1] = temp;
+        for (var index = 0; index < newArray.length - 1; index++) {
+          if (newArray[index] < newArray[index + 1]) {
+            // [newArray[index],newArray[index + 1] = newArray[index + 1],newArray[index] ]
+            newArray[index] = this.splice(newArray[index + 1], 1, newArray[index])[0]; //  newArray.unshift(newArray.splice(index+1,newArray[index]).shift());
+
+            console.log(newArray);
             swapped = true;
           }
-        }
+        } // newArray.shift();
+
       } while (swapped);
 
-      return splitNumber;
+      return newArray;
     }
   }
 });
@@ -5323,16 +5299,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -5346,7 +5312,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       description: "",
       date: new Date(),
       unit_price: 0.0,
-      submitStatus: ""
+      submitStatus: "",
+      imagePath: "",
+      image_error: "",
+      imageName: ""
     };
   },
   validations: {
@@ -5397,7 +5366,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         axios.post("/api/addInventory", (_axios$post = {
           name: this.name,
           code: this.code
-        }, _defineProperty(_axios$post, "name", this.name), _defineProperty(_axios$post, "description", this.description), _defineProperty(_axios$post, "unit_price", this.unit_price), _defineProperty(_axios$post, "date", this.date), _axios$post)).then(function (response) {
+        }, _defineProperty(_axios$post, "name", this.name), _defineProperty(_axios$post, "description", this.description), _defineProperty(_axios$post, "unit_price", this.unit_price), _defineProperty(_axios$post, "date", this.date), _defineProperty(_axios$post, "image_name", this.imageName), _axios$post)).then(function (response) {
           _this2.$v.$reset();
 
           _this2.submitStatus = "OK";
@@ -5407,6 +5376,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this2.description = "";
           _this2.unit_price = null;
 
+          _this2.$modalOnReload();
+
           _this2.$toast.top("Inventory Successfully Added");
 
           window.location.reload();
@@ -5414,6 +5385,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         e.preventDefault();
         return false;
       }
+    },
+    getImagePath: function getImagePath(e) {
+      var _this3 = this;
+
+      var file = e.target.files[0];
+      var form = new FormData();
+      form.append("image", file);
+      axios.post("/api/uploadInventoryImage", form).then(function (response) {
+        _this3.imagePath = response.data.path;
+        _this3.imageName = response.data.image_name;
+        _this3.image_error = "";
+      })["catch"](function (response) {
+        _this3.imagePath = "";
+        _this3.image_error = "Image must not exceed 2mb!";
+        _this3.imageName = "";
+      });
     },
     reset: function reset() {
       this.$v.$reset();
@@ -5605,6 +5592,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5622,6 +5629,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       unit_price: 0.0,
       status: "",
       submitStatus: "",
+      image_name: "",
+      image_path: "",
+      image_error: "",
       form_edit: false
     };
   },
@@ -5685,14 +5695,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           id: this.id,
           name: this.name,
           code: this.code
-        }, _defineProperty(_axios$post, "name", this.name), _defineProperty(_axios$post, "description", this.description), _defineProperty(_axios$post, "unit_price", this.unit_price), _defineProperty(_axios$post, "date", this.date), _defineProperty(_axios$post, "status", this.status), _axios$post)).then(function (response) {
+        }, _defineProperty(_axios$post, "name", this.name), _defineProperty(_axios$post, "description", this.description), _defineProperty(_axios$post, "unit_price", this.unit_price), _defineProperty(_axios$post, "date", this.date), _defineProperty(_axios$post, "status", this.status), _defineProperty(_axios$post, "image_name", this.image_name), _axios$post)).then(function (response) {
           _this2.form_edit = false;
           _this2.submitStatus = "OK";
+          setTimeout(function () {
+            _this2.submitStatus = "";
+          }, 3000);
           _inventory__WEBPACK_IMPORTED_MODULE_0__["default"].commit("getInventoryDetailsArray", response.data);
 
           _this2.$toast.top("Inventory Updated Successfully");
-
-          window.location.reload();
         });
         e.preventDefault();
         return false;
@@ -5719,7 +5730,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.unit_price = _inventory__WEBPACK_IMPORTED_MODULE_0__["default"].state.inventory_details.unit_price;
       this.date = new Date(_inventory__WEBPACK_IMPORTED_MODULE_0__["default"].state.inventory_details.date);
       this.status = _inventory__WEBPACK_IMPORTED_MODULE_0__["default"].state.inventory_details.status;
+      this.image_name = _inventory__WEBPACK_IMPORTED_MODULE_0__["default"].state.inventory_details.image_name;
+      this.image_path = _inventory__WEBPACK_IMPORTED_MODULE_0__["default"].state.inventory_details.image_path;
       this.form_edit = true;
+    },
+    getImagePath: function getImagePath(e) {
+      var _this4 = this;
+
+      var file = e.target.files[0];
+      var form = new FormData();
+      form.append("image", file);
+      axios.post("/api/uploadInventoryImage", form).then(function (response) {
+        _this4.image_path = response.data.path;
+        _this4.image_name = response.data.image_name;
+        _this4.image_error = "";
+      })["catch"](function (response) {
+        _this4.image_path = "";
+        _this4.image_error = "Image must not exceed 2mb!";
+        _this4.image_name = "";
+      });
     }
   }
 });
@@ -5843,6 +5872,14 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inventory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./inventory */ "./resources/js/views/inventory/inventory.js");
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -43778,7 +43815,7 @@ var render = function () {
                             { staticClass: "col-sm-12 offset-md-6 col-md-6" },
                             [
                               _c(
-                                "label",
+                                "p",
                                 { staticClass: "font-weight-bold mr-2 mb-4" },
                                 [_vm._v("Date")]
                               ),
@@ -44713,25 +44750,23 @@ var render = function () {
                     },
                     [_vm._v("\n              Create\n            ")]
                   ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-12 text-right" }, [
-                    _vm.submitStatus === "OK"
-                      ? _c("p", { staticClass: "typo__p" }, [
-                          _vm._v(
-                            "\n                Thanks for your submission!\n              "
-                          ),
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.submitStatus === "ERROR"
-                      ? _c("p", { staticClass: "typo__p" }, [
-                          _vm._v(
-                            "\n                Please fill the form correctly.\n              "
-                          ),
-                        ])
-                      : _vm._e(),
-                  ]),
                 ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12 mr-1 text-right" }, [
+                _vm.submitStatus === "OK"
+                  ? _c("p", [_vm._v("Thanks for your submission!")])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.submitStatus === "ERROR"
+                  ? _c("p", [
+                      _vm._v(
+                        "\n            Please fill the form correctly.\n          "
+                      ),
+                    ])
+                  : _vm._e(),
               ]),
             ]),
           ]),
@@ -44877,7 +44912,7 @@ var render = function () {
                                 },
                                 [
                                   _c(
-                                    "label",
+                                    "p",
                                     {
                                       staticClass: "font-weight-bold mr-2 mb-4",
                                     },
@@ -46229,155 +46264,142 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col-md-12 col-sm-12" }, [
-      _c(
-        "form",
-        {
-          staticClass: "form-horizontal form-label-left",
-          attrs: { id: "create-customer-form" },
-        },
-        [
-          _c("div", { staticClass: "row text-center" }, [
-            _c("div", { staticClass: "col-sm-12 offset-md-6 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Date :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getCustomerDetails.date))]),
-            ]),
+      _c("div", { staticClass: "row text-center" }, [
+        _c("div", { staticClass: "col-sm-12 offset-md-6 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [_vm._v("Date :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.getCustomerDetails.date))]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row text-center" }, [
+        _c("div", { staticClass: "col-sm-12 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [_vm._v("Name :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.getCustomerDetails.name))]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-12 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [
+            _vm._v("Address :"),
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "row text-center" }, [
-            _c("div", { staticClass: "col-sm-12 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Name :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getCustomerDetails.name))]),
-            ]),
+          _c("p", [_vm._v(_vm._s(_vm.getCustomerDetails.address))]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row text-center" }, [
+        _c("div", { staticClass: "col-sm-12 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [
+            _vm._v("Contact # :"),
+          ]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.getCustomerDetails.contact))]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-12 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [
+            _vm._v("Employee :"),
+          ]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.getCustomerDetails.employee_name))]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row table-responsive mb-4" }, [
+        _c(
+          "table",
+          {
+            staticClass:
+              "table table-sm table-bordered table-hover table-fixed",
+          },
+          [
+            _vm._m(0),
             _vm._v(" "),
-            _c("div", { staticClass: "col-sm-12 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Address :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getCustomerDetails.address))]),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row text-center" }, [
-            _c("div", { staticClass: "col-sm-12 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Contact # :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getCustomerDetails.contact))]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-12 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Employee :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getCustomerDetails.employee_name))]),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row table-responsive mb-4" }, [
             _c(
-              "table",
-              {
-                staticClass:
-                  "table table-sm table-bordered table-hover table-fixed",
-              },
-              [
-                _vm._m(0),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.getCustomerItems, function (item) {
-                    return _c("tr", { key: item.id }, [
-                      _c("td", [_vm._v(_vm._s(item.inventory_name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.description))]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(_vm._s(item.quantity)),
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(_vm._s(item.unit_price)),
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(_vm._s(item.discount_rate)),
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(_vm._s(item.discounted_amount)),
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(_vm._s(item.total_price)),
-                      ]),
-                    ])
-                  }),
-                  0
-                ),
-              ]
-            ),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "offset-md-6 col-md-6" }, [
-              _c(
-                "table",
-                { staticClass: "table table-bordered table-hover table-fixed" },
-                [
-                  _c("tbody", [
-                    _c("tr", [
-                      _c("td", { staticClass: "thead-global" }, [
-                        _vm._v("Total Discounted Amount"),
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(_vm.getCustomerDetails.discounted_amount) +
-                            "\n                        "
-                        ),
-                      ]),
-                    ]),
-                    _vm._v(" "),
-                    _c("tr", [
-                      _c("td", { staticClass: "thead-global" }, [
-                        _vm._v("Total Amount"),
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-right" }, [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(_vm.getCustomerDetails.total_amount) +
-                            "\n                        "
-                        ),
-                      ]),
-                    ]),
+              "tbody",
+              _vm._l(_vm.getCustomerItems, function (item) {
+                return _c("tr", { key: item.id }, [
+                  _c("td", [_vm._v(_vm._s(item.inventory_name))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item.description))]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(item.quantity)),
                   ]),
-                ]
-              ),
-            ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(item.unit_price)),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(item.discount_rate)),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(item.discounted_amount)),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(_vm._s(item.total_price)),
+                  ]),
+                ])
+              }),
+              0
+            ),
+          ]
+        ),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "offset-md-6 col-md-6" }, [
+          _c(
+            "table",
+            { staticClass: "table table-bordered table-hover table-fixed" },
+            [
+              _c("tbody", [
+                _c("tr", [
+                  _c("td", { staticClass: "thead-global" }, [
+                    _vm._v("Total Discounted Amount"),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.getCustomerDetails.discounted_amount) +
+                        "\n              "
+                    ),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td", { staticClass: "thead-global" }, [
+                    _vm._v("Total Amount"),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right" }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.getCustomerDetails.total_amount) +
+                        "\n              "
+                    ),
+                  ]),
+                ]),
+              ]),
+            ]
+          ),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row text-center" }, [
+        _c("div", { staticClass: "col-sm-12 offset-md-6 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [
+            _vm._v("Status :"),
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "row text-center" }, [
-            _c("div", { staticClass: "col-sm-12 offset-md-6 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Status :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getCustomerDetails.status))]),
-            ]),
-          ]),
-        ]
-      ),
+          _c("p", [_vm._v(_vm._s(_vm.getCustomerDetails.status))]),
+        ]),
+      ]),
     ]),
   ])
 }
@@ -46550,7 +46572,7 @@ var render = function () {
                                 !_vm.$v.name.required
                                   ? _c("p", { staticClass: "text-danger" }, [
                                       _vm._v(
-                                        "\n                                            this field is required.\n                                        "
+                                        "\n                      this field is required.\n                    "
                                       ),
                                     ])
                                   : _vm._e(),
@@ -46594,7 +46616,7 @@ var render = function () {
                                 !_vm.$v.address.required
                                   ? _c("p", { staticClass: "text-danger" }, [
                                       _vm._v(
-                                        "\n                                            this field is required.\n                                        "
+                                        "\n                      this field is required.\n                    "
                                       ),
                                     ])
                                   : _vm._e(),
@@ -46640,7 +46662,7 @@ var render = function () {
                                 !_vm.$v.contact.required
                                   ? _c("p", { staticClass: "text-danger" }, [
                                       _vm._v(
-                                        "\n                                            this field is required.\n                                        "
+                                        "\n                      this field is required.\n                    "
                                       ),
                                     ])
                                   : _vm._e(),
@@ -46648,7 +46670,7 @@ var render = function () {
                                 !_vm.$v.contact.maxLength
                                   ? _c("p", { staticClass: "text-danger" }, [
                                       _vm._v(
-                                        "\n                                            this field has a maximum of 11\n                                            numbers.\n                                        "
+                                        "\n                      this field has a maximum of 11 numbers.\n                    "
                                       ),
                                     ])
                                   : _vm._e(),
@@ -46683,8 +46705,7 @@ var render = function () {
                                     $$v
                                   )
                                 },
-                                expression:
-                                  "\n                                            $v.selected_department.$model\n                                        ",
+                                expression: "$v.selected_department.$model",
                               },
                             }),
                             _vm._v(" "),
@@ -46693,7 +46714,7 @@ var render = function () {
                                   !_vm.$v.selected_department.required
                                     ? _c("p", { staticClass: "text-danger" }, [
                                         _vm._v(
-                                          "\n                                            this select field is required.\n                                        "
+                                          "\n                      this select field is required.\n                    "
                                         ),
                                       ])
                                     : _vm._e(),
@@ -46739,31 +46760,25 @@ var render = function () {
                         },
                       },
                     },
-                    [
-                      _vm._v(
-                        "\n                            Create\n                        "
-                      ),
-                    ]
+                    [_vm._v("\n              Create\n            ")]
                   ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-12 text-right" }, [
-                    _vm.submitStatus === "OK"
-                      ? _c("p", { staticClass: "typo__p" }, [
-                          _vm._v(
-                            "\n                                Thanks for your submission!\n                            "
-                          ),
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.submitStatus === "ERROR"
-                      ? _c("p", { staticClass: "typo__p" }, [
-                          _vm._v(
-                            "\n                                Please fill the form correctly.\n                            "
-                          ),
-                        ])
-                      : _vm._e(),
-                  ]),
                 ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12 mr-1 text-right" }, [
+                _vm.submitStatus === "OK"
+                  ? _c("p", [_vm._v("Thanks for your submission!")])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.submitStatus === "ERROR"
+                  ? _c("p", [
+                      _vm._v(
+                        "\n            Please fill the form correctly.\n          "
+                      ),
+                    ])
+                  : _vm._e(),
               ]),
             ]),
           ]),
@@ -46827,6 +46842,8 @@ var render = function () {
         role: "dialog",
         "aria-labelledby": "editEmployeeLabel",
         "aria-hidden": "true",
+        "data-backdrop": "static",
+        "data-keyboard": "false",
       },
     },
     [
@@ -47237,22 +47254,22 @@ var render = function () {
                     [_vm._v("\n          Update\n        ")]
                   )
                 : _vm._e(),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _vm.submitStatus === "OK"
-                ? _c("p", { staticClass: "typo__p" }, [
-                    _vm._v("\n          Thanks for your submission!\n        "),
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.submitStatus === "ERROR"
-                ? _c("p", { staticClass: "typo__p" }, [
-                    _vm._v(
-                      "\n          Please fill the form correctly.\n        "
-                    ),
-                  ])
-                : _vm._e(),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12 mr-1 text-right" }, [
+                _vm.submitStatus === "OK"
+                  ? _c("p", [_vm._v("Thanks for your submission!")])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.submitStatus === "ERROR"
+                  ? _c("p", [
+                      _vm._v(
+                        "\n            Please fill the form correctly.\n          "
+                      ),
+                    ])
+                  : _vm._e(),
+              ]),
             ]),
           ]),
         ]
@@ -47408,60 +47425,49 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col-md-12 col-sm-12" }, [
-      _c(
-        "form",
-        {
-          staticClass: "form-horizontal form-label-left",
-          attrs: { id: "create-employee-form" },
-        },
-        [
-          _c("div", { staticClass: "row text-center" }, [
-            _c("div", { staticClass: "col-sm-12 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Name :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getEmployeeDetails.name))]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-12 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Address :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getEmployeeDetails.address))]),
-            ]),
+      _c("div", { staticClass: "row text-center" }, [
+        _c("div", { staticClass: "col-sm-12 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [_vm._v("Name :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.getEmployeeDetails.name))]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-12 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [
+            _vm._v("Address :"),
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "row text-center" }, [
-            _c("div", { staticClass: "col-sm-12 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Contact # :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getEmployeeDetails.contact))]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-12 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Department :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getEmployeeDetails.department_name))]),
-            ]),
+          _c("p", [_vm._v(_vm._s(_vm.getEmployeeDetails.address))]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row text-center" }, [
+        _c("div", { staticClass: "col-sm-12 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [
+            _vm._v("Contact # :"),
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "row text-center" }, [
-            _c("div", { staticClass: "col-sm-12 offset-md-6 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Status :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getEmployeeDetails.status))]),
-            ]),
+          _c("p", [_vm._v(_vm._s(_vm.getEmployeeDetails.contact))]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-12 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [
+            _vm._v("Department :"),
           ]),
-        ]
-      ),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.getEmployeeDetails.department_name))]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row text-center" }, [
+        _c("div", { staticClass: "col-sm-12 offset-md-6 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [
+            _vm._v("Status :"),
+          ]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.getEmployeeDetails.status))]),
+        ]),
+      ]),
     ]),
   ])
 }
@@ -47505,19 +47511,19 @@ var render = function () {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.number,
-                  expression: "number",
+                  value: _vm.numbers,
+                  expression: "numbers",
                 },
               ],
               staticClass: "form-control",
               attrs: { type: "text" },
-              domProps: { value: _vm.number },
+              domProps: { value: _vm.numbers },
               on: {
                 input: function ($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.number = $event.target.value
+                  _vm.numbers = $event.target.value
                 },
               },
             }),
@@ -48099,20 +48105,47 @@ var render = function () {
                       attrs: { id: "create-inventory-form" },
                     },
                     [
-                      _c("div", { staticClass: "row mb-3" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("p", { staticClass: "font-weight-bold pr-3s" }, [
+                            _vm._v("Image"),
+                          ]),
+                          _vm._v(" "),
+                          _vm.imagePath != ""
+                            ? _c("img", {
+                                staticClass: "mb-2",
+                                attrs: {
+                                  src: _vm.imagePath,
+                                  alt: "Item Image",
+                                  width: "80%",
+                                  height: "50%",
+                                },
+                              })
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: { type: "file" },
+                            on: { change: _vm.getImagePath },
+                          }),
+                          _vm._v(" "),
+                          _vm.image_error != ""
+                            ? _c("label", { staticClass: "text-danger" }, [
+                                _vm._v(_vm._s(_vm.image_error)),
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("hr"),
+                        ]),
+                        _vm._v(" "),
                         _c(
                           "div",
-                          { staticClass: "col-sm-12 offset-md-6 col-md-6" },
+                          { staticClass: "col-md-6" },
                           [
-                            _c(
-                              "label",
-                              { staticClass: "font-weight-bold pr-3s" },
-                              [
-                                _vm._v(
-                                  "Date\n                                    "
-                                ),
-                              ]
-                            ),
+                            _c("p", { staticClass: "font-weight-bold pr-3s" }, [
+                              _vm._v("Date"),
+                            ]),
                             _vm._v(" "),
                             _c("date-picker", {
                               attrs: {
@@ -48134,7 +48167,7 @@ var render = function () {
                                   !_vm.$v.date.required
                                     ? _c("p", { staticClass: "text-danger" }, [
                                         _vm._v(
-                                          "\n                                            this field is required.\n                                        "
+                                          "\n                      this field is required.\n                    "
                                         ),
                                       ])
                                     : _vm._e(),
@@ -48182,7 +48215,7 @@ var render = function () {
                                 !_vm.$v.code.required
                                   ? _c("p", { staticClass: "text-danger" }, [
                                       _vm._v(
-                                        "\n                                            this field is required.\n                                        "
+                                        "\n                      this field is required.\n                    "
                                       ),
                                     ])
                                   : _vm._e(),
@@ -48226,7 +48259,7 @@ var render = function () {
                                 !_vm.$v.name.required
                                   ? _c("p", { staticClass: "text-danger" }, [
                                       _vm._v(
-                                        "\n                                            this field is required.\n                                        "
+                                        "\n                      this field is required.\n                    "
                                       ),
                                     ])
                                   : _vm._e(),
@@ -48296,7 +48329,7 @@ var render = function () {
                                 !_vm.$v.unit_price.required
                                   ? _c("p", { staticClass: "text-danger" }, [
                                       _vm._v(
-                                        "\n                                            this select field is required.\n                                        "
+                                        "\n                      this select field is required.\n                    "
                                       ),
                                     ])
                                   : _vm._e(),
@@ -48342,31 +48375,25 @@ var render = function () {
                         },
                       },
                     },
-                    [
-                      _vm._v(
-                        "\n                            Create\n                        "
-                      ),
-                    ]
+                    [_vm._v("\n              Create\n            ")]
                   ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-12 text-right" }, [
-                    _vm.submitStatus === "OK"
-                      ? _c("p", { staticClass: "typo__p" }, [
-                          _vm._v(
-                            "\n                                Thanks for your submission!\n                            "
-                          ),
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.submitStatus === "ERROR"
-                      ? _c("p", { staticClass: "typo__p" }, [
-                          _vm._v(
-                            "\n                                Please fill the form correctly.\n                            "
-                          ),
-                        ])
-                      : _vm._e(),
-                  ]),
                 ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12 mr-1 text-right" }, [
+                _vm.submitStatus === "OK"
+                  ? _c("p", [_vm._v("Thanks for your submission!")])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.submitStatus === "ERROR"
+                  ? _c("p", [
+                      _vm._v(
+                        "\n            Please fill the form correctly.\n          "
+                      ),
+                    ])
+                  : _vm._e(),
               ]),
             ]),
           ]),
@@ -48438,6 +48465,8 @@ var render = function () {
         role: "dialog",
         "aria-labelledby": "editInventoryLabel",
         "aria-hidden": "true",
+        "data-backdrop": "static",
+        "data-keyboard": "false",
       },
     },
     [
@@ -48486,17 +48515,52 @@ var render = function () {
                             attrs: { id: "update-inventory-form" },
                           },
                           [
-                            _c("div", { staticClass: "row mb-3" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col-md-6" }, [
+                                _c(
+                                  "p",
+                                  { staticClass: "font-weight-bold pr-3s" },
+                                  [_vm._v("Image")]
+                                ),
+                                _vm._v(" "),
+                                _vm.image_path != ""
+                                  ? _c("img", {
+                                      staticClass: "mb-2",
+                                      attrs: {
+                                        src: _vm.image_path,
+                                        alt: "Item Image",
+                                        width: "80%",
+                                        height: "50%",
+                                      },
+                                    })
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("input", {
+                                  attrs: { type: "file" },
+                                  on: { change: _vm.getImagePath },
+                                }),
+                                _vm._v(" "),
+                                _vm.image_error != ""
+                                  ? _c(
+                                      "label",
+                                      { staticClass: "text-danger" },
+                                      [_vm._v(_vm._s(_vm.image_error))]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _c("hr"),
+                              ]),
+                              _vm._v(" "),
                               _c(
                                 "div",
-                                {
-                                  staticClass: "col-sm-12 offset-md-6 col-md-6",
-                                },
+                                { staticClass: "col-md-6" },
                                 [
                                   _c(
-                                    "label",
+                                    "p",
                                     { staticClass: "font-weight-bold pr-3s" },
-                                    [_vm._v("Date ")]
+                                    [_vm._v("Date")]
                                   ),
                                   _vm._v(" "),
                                   _c("date-picker", {
@@ -48854,22 +48918,22 @@ var render = function () {
                     [_vm._v("\n          Update\n        ")]
                   )
                 : _vm._e(),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _vm.submitStatus === "OK"
-                ? _c("p", { staticClass: "typo__p" }, [
-                    _vm._v("\n          Thanks for your submission!\n        "),
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.submitStatus === "ERROR"
-                ? _c("p", { staticClass: "typo__p" }, [
-                    _vm._v(
-                      "\n          Please fill the form correctly.\n        "
-                    ),
-                  ])
-                : _vm._e(),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12 mr-1 text-right" }, [
+                _vm.submitStatus === "OK"
+                  ? _c("p", [_vm._v("Thanks for your submission!")])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.submitStatus === "ERROR"
+                  ? _c("p", [
+                      _vm._v(
+                        "\n            Please fill the form correctly.\n          "
+                      ),
+                    ])
+                  : _vm._e(),
+              ]),
             ]),
           ]),
         ]
@@ -49035,76 +49099,78 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col-md-12 col-sm-12" }, [
-      _c(
-        "form",
-        {
-          staticClass: "form-horizontal form-label-left",
-          attrs: { id: "create-inventory-form" },
-        },
-        [
-          _c("div", { staticClass: "row text-center" }, [
-            _c("div", { staticClass: "col-sm-12 offset-md-6 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Date :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getInventoryDetails.date))]),
-            ]),
+      _c("div", { staticClass: "row text-center" }, [
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("p", { staticClass: "font-weight-bold" }, [_vm._v("Image")]),
+          _vm._v(" "),
+          _vm.getInventoryDetails.image_name != null
+            ? _c("img", {
+                attrs: {
+                  src: _vm.getInventoryDetails.image_path,
+                  alt: "Item Image",
+                  width: "40%",
+                  height: "60%",
+                },
+              })
+            : _c("p", { staticClass: "text-center" }, [_vm._v("N/A")]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [_vm._v("Date :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.getInventoryDetails.date))]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row text-center" }, [
+        _c("div", { staticClass: "col-sm-12 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [_vm._v("Code :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.getInventoryDetails.code))]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-12 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [_vm._v("Name :")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.getInventoryDetails.name))]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row text-center" }, [
+        _c("div", { staticClass: "col-sm-12 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [
+            _vm._v("Unit Price :"),
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "row text-center" }, [
-            _c("div", { staticClass: "col-sm-12 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Code :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getInventoryDetails.code))]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-12 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Name :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getInventoryDetails.name))]),
-            ]),
+          _c("p", [_vm._v(_vm._s(_vm.getInventoryDetails.unit_price))]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-12 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [
+            _vm._v("Description :"),
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "row text-center" }, [
-            _c("div", { staticClass: "col-sm-12 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Unit Price :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getInventoryDetails.unit_price))]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-12 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Description :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(_vm.getInventoryDetails.description))]),
-            ]),
+          _c("p", [_vm._v(_vm._s(_vm.getInventoryDetails.description))]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row text-center" }, [
+        _c("div", { staticClass: "col-sm-12 offset-md-6 col-md-6" }, [
+          _c("label", { staticClass: "font-weight-bold" }, [
+            _vm._v("Status :"),
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "row text-center" }, [
-            _c("div", { staticClass: "col-sm-12 offset-md-6 col-md-6" }, [
-              _c("label", { staticClass: "font-weight-bold" }, [
-                _vm._v("Status :"),
-              ]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  _vm._s(
-                    _vm.getInventoryDetails.status === 1 ? "ACTIVE" : "INACTIVE"
-                  )
-                ),
-              ]),
-            ]),
+          _c("p", [
+            _vm._v(
+              "\n          " +
+                _vm._s(
+                  _vm.getInventoryDetails.status === 1 ? "ACTIVE" : "INACTIVE"
+                ) +
+                "\n        "
+            ),
           ]),
-        ]
-      ),
+        ]),
+      ]),
     ]),
   ])
 }
@@ -49137,7 +49203,7 @@ var render = function () {
       _c(
         "router-link",
         { staticClass: "nav-link", attrs: { to: { name: "bubble_sort" } } },
-        [_c("i", { staticClass: "fa fa-plane" }), _vm._v(" Bubble Sort\n    ")]
+        [_c("i", { staticClass: "fa fa-sort" }), _vm._v(" Bubble Sort\n    ")]
       ),
     ],
     1
@@ -49579,7 +49645,7 @@ var render = function () {
       _c(
         "router-link",
         { staticClass: "nav-link", attrs: { to: { name: "palindrome" } } },
-        [_c("i", { staticClass: "fa fa-reply" }), _vm._v(" Palindrome\n    ")]
+        [_c("i", { staticClass: "fa fa-retweet" }), _vm._v(" Palindrome\n    ")]
       ),
     ],
     1
@@ -72533,6 +72599,10 @@ vue__WEBPACK_IMPORTED_MODULE_2___default.a.prototype.$modalOnHide = function () 
   this.submitStatus = null;
 };
 
+vue__WEBPACK_IMPORTED_MODULE_2___default.a.prototype.$modalOnReload = function () {
+  this.submitStatus = null;
+};
+
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.prototype.$transformToAbsolute = function (amount) {
   var parse_amount = parseFloat(amount);
 
@@ -74273,14 +74343,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************************!*\
   !*** ./resources/js/views/inventory/InventoryCreate.vue ***!
   \**********************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _InventoryCreate_vue_vue_type_template_id_ba280794___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InventoryCreate.vue?vue&type=template&id=ba280794& */ "./resources/js/views/inventory/InventoryCreate.vue?vue&type=template&id=ba280794&");
 /* harmony import */ var _InventoryCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InventoryCreate.vue?vue&type=script&lang=js& */ "./resources/js/views/inventory/InventoryCreate.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _InventoryCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _InventoryCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -74310,7 +74381,7 @@ component.options.__file = "resources/js/views/inventory/InventoryCreate.vue"
 /*!***********************************************************************************!*\
   !*** ./resources/js/views/inventory/InventoryCreate.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

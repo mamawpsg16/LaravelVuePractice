@@ -10,7 +10,7 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5  id="myModalLabel"></h5>
+          <h5 id="myModalLabel"></h5>
           <button
             type="button"
             class="close"
@@ -30,7 +30,7 @@
                 >
                   <div class="row">
                     <div class="col-sm-12 offset-md-6 col-md-6">
-                      <label class="font-weight-bold mr-2 mb-4">Date</label>
+                      <p class="font-weight-bold mr-2 mb-4">Date</p>
                       <date-picker
                         v-model="$v.date.$model"
                         format="YYYY-MM-DD"
@@ -336,15 +336,15 @@
               >
                 Create
               </button>
-              <div class="col-md-12 text-right">
-                <p class="typo__p" v-if="submitStatus === 'OK'">
-                  Thanks for your submission!
-                </p>
-                <p class="typo__p" v-if="submitStatus === 'ERROR'">
-                  Please fill the form correctly.
-                </p>
-              </div>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mr-1 text-right">
+            <p v-if="submitStatus === 'OK'">Thanks for your submission!</p>
+            <p v-if="submitStatus === 'ERROR'">
+              Please fill the form correctly.
+            </p>
           </div>
         </div>
       </div>
@@ -499,19 +499,20 @@ export default {
             this.contact = "";
             this.date = new Date();
             this.selected_employee = null;
+            this.$modalOnReload();
             this.added_items = [
-            {
-              selected_inventory: null,
-              description: "",
-              quantity: 0,
-              unit_price: 0.0,
-              discounted_method: false,
-              total_price: 0.0,
-              discount_rate: 0.0,
-              discount: 0,
-              discounted_amount: 0.0,
-            },
-          ],
+              {
+                selected_inventory: null,
+                description: "",
+                quantity: 0,
+                unit_price: 0.0,
+                discounted_method: false,
+                total_price: 0.0,
+                discount_rate: 0.0,
+                discount: 0,
+                discounted_amount: 0.0,
+              },
+            ];
             this.$toast.top("Customer Successfully Added");
             setTimeout(() => {
               window.location.reload();
@@ -558,7 +559,7 @@ export default {
           parseFloat(this.added_items[id].total_price) -
           parseFloat(this.added_items[id].discount);
         this.added_items[id].discounted_amount = discount.toFixed(2);
-      }else{
+      } else {
         this.added_items[id].discounted_amount = 0;
       }
     },
@@ -568,7 +569,7 @@ export default {
       this.added_items[id].discounted_amount = 0;
       e.preventDefault();
     },
-    eventOnDiscount(id){
+    eventOnDiscount(id) {
       this.computeDiscountAmount(id);
     },
     eventOnDiscountRate(id, e) {

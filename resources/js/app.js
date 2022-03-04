@@ -129,6 +129,10 @@ Vue.prototype.$modalOnHide = function() {
   this.submitStatus = null
 }
 
+Vue.prototype.$modalOnReload = function() {
+  this.submitStatus = null
+}
+
 Vue.prototype.$transformToAbsolute = function (amount)
 { 
   var parse_amount     = parseFloat(amount);
