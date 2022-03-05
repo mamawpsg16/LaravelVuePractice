@@ -7,6 +7,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate'
 import CKEditor from '@ckeditor/ckeditor5-vue2';
+import NProgress from 'nprogress'
 
 Vue.use(Toast);
 Vue.use(VueRouter);
@@ -14,6 +15,8 @@ Vue.use(Vuelidate)
 Vue.use(CKEditor)
 Vue.component('app', require('./views/App.vue').default);
 
+//loading template
+Vue.component('loading',{ template: '<div class="loader">Loading...</div>'})
 const Home = Vue.component('Home', require('./views/Home.vue').default);
 const Task = Vue.component('Task', require('./views/Task.vue').default);
 const Department = Vue.component('Department', require('./views/Department.vue').default);
@@ -119,6 +122,7 @@ const router = new VueRouter({
 // Make sure to inject the router with the router option to make the
 // whole app router-aware.
 const app = new Vue({
+  data: { loading: false },
   router
 }).$mount('#app')
 
@@ -169,5 +173,18 @@ Vue.prototype.$getUrlParameter = function (sParam) {
       }
   }
 }
+
+router.beforeResolve((to, from, next) => {
+  if (to.name) {
+      app.loading = true
+      NProgress.start().set(0.4)
+  }
+  next()
+})
+
+router.afterEach((to, from) => {
+  setTimeout(() => app.loading = false, 1000)
+  NProgress.done()
+})
 
 Vue.config.devtools = true

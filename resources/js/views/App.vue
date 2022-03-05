@@ -67,8 +67,8 @@
             </div>
             <!-- /.sidebar -->
         </aside>
-
-        <router-view></router-view>
+        <loading v-if="$root.loading"></loading>
+        <router-view v-else></router-view>
     </div>
 </template>
 <script>
