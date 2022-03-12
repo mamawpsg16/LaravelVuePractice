@@ -58,7 +58,7 @@ export default {
         };
     },
     mounted() {
-        this.getEmployeeLists();
+        // this.getEmployeeLists();
     },
     components: {
         "employee-edit": EmployeeEdit,

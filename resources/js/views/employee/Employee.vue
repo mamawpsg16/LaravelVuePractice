@@ -16,7 +16,8 @@
             <div class="col-md-12 col-sm-12">
                 <div class="row">
                     <div class="col-md-12">
-                        <employee-list></employee-list>
+                        <!-- <employee-list></employee-list> -->
+                        <employee-datatable></employee-datatable>
                     </div>
                 </div>
             </div>
@@ -25,12 +26,14 @@
     </div>
 </template>
 <script>
-import EmployeeList from "./EmployeeList";
+// import EmployeeList from "./EmployeeList";
+import EmployeeListDataTable from "./EmployeeListDataTable";
 import EmployeeCreate from "./EmployeeCreate";
 export default {
     name: "Employee",
     components: {
-        "employee-list": EmployeeList,
+        // "employee-list": EmployeeList,
+        "employee-datatable": EmployeeListDataTable,
         "employee-create": EmployeeCreate,
     },
     methods: {

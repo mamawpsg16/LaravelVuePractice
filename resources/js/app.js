@@ -1,6 +1,4 @@
 require('./bootstrap');
-window.Vue = require('vue');
-
 import 'vue2-toast/lib/toast.css';
 import Toast from 'vue2-toast';
 import Vue from 'vue';
@@ -8,7 +6,7 @@ import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate'
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 import NProgress from 'nprogress'
-
+window.Vue = require('vue');
 Vue.use(Toast);
 Vue.use(VueRouter);
 Vue.use(Vuelidate)

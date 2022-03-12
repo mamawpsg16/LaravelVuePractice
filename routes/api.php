@@ -28,7 +28,7 @@ Route::post('/updateDepartmentStatus/{id}', 'DepartmentController@updateDepartme
 Route::post('/getDepartments', 'DepartmentController@getDepartments');
 
 
-Route::get('/getEmployeeLists', 'EmployeeController@index');
+Route::post('/getEmployeeLists', 'EmployeeController@employeeList');
 Route::post('/addEmployee', 'EmployeeController@addEmployee');
 Route::post('/getEmployeeDetails/{id}', 'EmployeeController@getEmployeeDetails');
 Route::post('/updateEmployee/{id}', 'EmployeeController@updateEmployee');

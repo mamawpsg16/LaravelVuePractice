@@ -6,8 +6,37 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 class Employee extends Model
 {
+
+	public static function getEmployeeTotal()
+    {
+        return DB::table('employees')
+				->where('status',1)
+                ->count();
+    }
+
+	public static function getEmployeeList($start, $limit, $dir)
+    {
+        return DB::table('employees')
+				->where('status',1)
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy('id',$dir)
+                ->get()->toArray();
+    }
+
+	public static function getEmployeeNameSearch($search_value,$start, $limit, $dir)
+    {
+        return DB::table('employees')
+				->where('name','LIKE',"%{$search_value}%")
+				->offset($start)
+                ->limit($limit)
+                ->orderBy('name',$dir)
+                ->get()->toArray();
+    }
+
      public static function getEmployees(){
     	return DB::table('employees')
+			->where('status',1)
     		->orderBy('created_at','DESC')
     		->get()
     		->toArray();
@@ -73,4 +102,5 @@ class Employee extends Model
                 ->limit(50)
                 ->get()->toArray();
     }
+	
 }
